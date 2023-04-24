@@ -6,6 +6,7 @@ import {
   TextInput,
   TouchableOpacity,
   Image,
+  //Alert,
 
 } from 'react-native';
 import { Header } from 'react-native-elements';
@@ -44,8 +45,11 @@ export default class App extends React.Component {
           <TouchableOpacity
             style={styles.goButton}
             onPress={() => {
-              this.setState({ chunks: db[this.state.text].chunks });
-              this.setState({phones: db[this.state.text].phones});
+              var word = this.state.text.toLowerCase().trim()
+              db[word]?
+             ( this.setState({ chunks: db[word].chunks }),
+              this.setState({phones: db[word].phones}))
+              : alert("sua palavra não foi encontrada!")
             }}>
             <Text style={styles.buttonText}>IR</Text>
           </TouchableOpacity>
@@ -54,7 +58,8 @@ export default class App extends React.Component {
               return(
                 <SoundButton 
                 wordChunk = {this.state.chunks[index]}
-                soundChunk = {this.state.phone[index]}
+                soundChunk = {this.state.phones[index]}
+                buttonIndex={index}
                 />
               )
               })}
@@ -100,7 +105,7 @@ const styles = StyleSheet.create({
   imageIcon: {
     width: 150,
     height: 150,
-    marginLeft: 95,
+    alignSelf: 'center',
   },
   chunkButton: {
     width: '60%',
